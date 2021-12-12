@@ -23,7 +23,7 @@ V(1, :) = v';
 
 [row, ~] = size(u);
 
-% init = cat(1,u,v);
+init = cat(1,u,v);
 % [t, out] = ode45(accfun, tspan,init, odeset('AbsTol',1e-8,'Stats','on' ));
 % U = out(:,1:row);
 % V = out(:,row + 1:end);
