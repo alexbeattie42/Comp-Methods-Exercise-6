@@ -14,6 +14,15 @@ for rj = mbs.joints.revolute
     c_idx = c_idx + 2;
 end
 
+for tj = mbs.joints.prismatic
+    q1 = q(body_idx(tj.body1));
+    q2 = q(body_idx(tj.body2));
+    r1 = q1(1:2);
+    r2 = q2(1:2);
+    C(c_idx + (1:2)) = r1 + tj.s1 - r2 - tj.s2;
+    c_idx = c_idx + 2;
+end
+
 for sj = mbs.joints.simple
     qb = q(body_idx(sj.body));
     C(c_idx + 1) = qb(sj.coord) - sj.c0;

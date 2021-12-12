@@ -1,9 +1,10 @@
-function [T, Q, Qp, niter] = kinematic_analysis(mbs, q0, h, t_end, tol)
+function [T, Q, Qp,Qdd, niter] = kinematic_analysis(mbs, q0, h, t_end, tol)
 
 T = 0.0:h:t_end;
 nt = length(T);
 Q = zeros(nt, mbs.nq);
 Qp = zeros(nt, mbs.nq);
+Qdd = zeros(nt, mbs.nq);
 
 qi = q0;
 niter = zeros(1, nt);
@@ -20,4 +21,7 @@ for ii = 1 : nt
     qip = -Cq\Ct; % -Cq^-1*Ct
     Qp(ii, :) = qip';
     qi = qi + h .* qip;
+    % Below is acceleration analysis
+    qdd = acceleration_kinematic(mbs,qi,qip,t);
+    Qdd(ii,:) = qdd;
 end
