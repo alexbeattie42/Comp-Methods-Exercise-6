@@ -1,10 +1,10 @@
-function [dydt] = acceleration(mbs, y, t, dt)
+function [dydt] = acceleration(mbs, y, t)
 [rows, ~] = size(y);
 q = y(1:rows/2,:);
 qd = y((rows/2)+1:end,:);
 dydt = zeros(size(y));
 M = mass_matrix(mbs);
-f = forces(mbs, q);
+f = forces(mbs, q, t);
 if mbs.nc == 0
     qdd = M \ f;
     
@@ -23,7 +23,5 @@ else
     qdd = qddlambda(1:mbs.nq);
 end
 
-v = qd + dt*qdd; % Velocity
-u = q + dt*v; % Position
-dydt(1:rows/2,:) = u;
-dydt((rows/2)+1:end,:) = v;
+dydt(1:rows/2,:) = qd;
+dydt((rows/2)+1:end,:) = qdd;
